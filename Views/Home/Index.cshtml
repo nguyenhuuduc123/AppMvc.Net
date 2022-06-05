@@ -6,3 +6,11 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@{
+    var routedata = new Dictionary<string,string>(){
+        {"name", "nguyenhuuduc"},
+        {"abc","xyz"}
+        };
+}
+@*   ..../name=nguyenhuuduc&abc=xyz*@
+<a asp-all-route-data="@routedata"></a>

@@ -1,0 +1,14 @@
+@using App.mvc.Models
+@model PlanetModel
+
+<h1>@Model.Name</h1>
+<div class = "card w-50">
+        <img class = "card-img-top" src="~/planet/@(Model.Name).jpg" alt="">
+        <div class  = "card-body">
+            <h5>@Model.VnName</h5>
+                <div class = "card-text">
+                        @Model.Content
+                </div>
+        <a class = "card-link" action = "Index">các hành tinh</a>
+        </div>
+</div>

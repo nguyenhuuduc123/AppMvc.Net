@@ -3,7 +3,7 @@ using System.IO;
 namespace  App.mvc.net.Controllers{
 
 
-
+    
     public class FirstController : Controller{
         private readonly ILogger<FirstController> _logger;
         private readonly IWebHostEnvironment _env;
@@ -34,6 +34,7 @@ namespace  App.mvc.net.Controllers{
           
      return    this.Content(context,"text/plan");
     }
+  //  [Route("grfg",Order = 1,Name ="sds")]
     public IActionResult bird(){
         string path = Path.Combine(_env.ContentRootPath,"Files","bird.webp");
         var bytes =  System.IO.File.ReadAllBytes(path);
@@ -51,6 +52,7 @@ namespace  App.mvc.net.Controllers{
     }
     [TempData]
     public string statusmessage {get;set;}
+    [AcceptVerbs("POST","GET")]
     public IActionResult ViewProduct(int? id){
         var product = _productservices.Where(p => p.id == id).FirstOrDefault();
         if(product == null) {
