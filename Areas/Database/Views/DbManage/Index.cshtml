@@ -1,0 +1,33 @@
+@using Microsoft.EntityFrameworkCore;
+@using System.Data;
+@inject AppDbContext dbcontext
+@{
+    ViewData["Title"] = "thông tin Db ";
+    var connect = dbcontext.Database.GetDbConnection();
+    var dbName = connect.Database;
+    var can_connect = dbcontext.Database.CanConnect();
+    //dbcontext.Database.GetPendingMigrations();
+    
+}
+<partial name = "_AlertMessage"></partial>
+<h1>thông tin về cơ sơ dữ liệu</h1>
+<h2>thông tin</h2>
+<p>- Database : @dbName</p>
+<p>- source : @connect.DataSource</p>
+<p>-state : @connect.State</p>
+@foreach (var migration in  dbcontext.Database.GetAppliedMigrations())
+{
+    <p>@migration (peding)</p>
+
+}@foreach (var migration in  dbcontext.Database.GetPendingMigrations())
+{
+    <p>@migration</p>
+    
+}
+<a class = "btn btn-danger" asp-action = "DeleteDb">xóa database : @dbName</a>
+@if(dbcontext.Database.GetPendingMigrations().Any()){
+    <form method="post">
+    <a  class = "btn -btn-priamry" asp-action = "Migrate">tạo db (cập nhập migrations)</a>
+    </form>
+
+}

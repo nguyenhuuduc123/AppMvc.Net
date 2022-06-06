@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using App.mvc.net.Controllers;
 using Microsoft.AspNetCore.Routing.Constraints;
 using App.mvc.Services;
+using App.mvc.net.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.Configure<RazorViewEngineOptions>(options => {
@@ -15,6 +18,12 @@ builder.Services.Configure<RazorViewEngineOptions>(options => {
          // {2} => tên areas
          options.ViewLocationFormats.Add("/myview/{1}/{0}" + RazorViewEngine.ViewExtension);
 });
+builder.Services.AddDbContext<AppDbContext>(options =>{
+        string connection = builder.Configuration.GetConnectionString("AppMvcConnectionString");
+        options.UseSqlServer(connection);
+}
+);
+
 builder.Services.AddSingleton<PlanetServices>();
 builder.Services.AddSingleton(typeof(ProductServices),typeof(ProductServices));
 var app = builder.Build();
@@ -92,3 +101,5 @@ app.Run();
 
 // dotnet aspnet-codegenerator controller -name Planet -namespace App.mvc.net.Controllers -outDir Controllers
 // dotnet aspnet-codegenerator controller -name Product -namespace App.mvc.net.Controllers -outDir Controllers
+//dotnet aspnet-codegenerator area Database
+//dotnet aspnet-codegenerator controller -name DbManage -outDir Areas/Database/Controllers
