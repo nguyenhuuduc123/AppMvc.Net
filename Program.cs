@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Routing.Constraints;
 using App.mvc.Services;
 using App.mvc.net.Models;
 using Microsoft.EntityFrameworkCore;
+using razorweb.models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,46 @@ builder.Services.AddDbContext<AppDbContext>(options =>{
         options.UseSqlServer(connection);
 }
 );
+builder.Services.AddIdentity<AppUser, IdentityRole>().
+AddEntityFrameworkStores<AppDbContext>().
+AddDefaultTokenProviders();
 
+builder.Services.Configure<IdentityOptions> (options => {
+    // Thiết lập về Password
+    options.Password.RequireDigit = false; // Không bắt phải có số
+    options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
+    options.Password.RequireNonAlphanumeric = false; // Không bắt ký tự đặc biệt
+    options.Password.RequireUppercase = false; // Không bắt buộc chữ in
+    options.Password.RequiredLength = 3; // Số ký tự tối thiểu của password
+    options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
+    // Cấu hình Lockout - khóa user
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (5); // Khóa 5 phút
+    options.Lockout.MaxFailedAccessAttempts = 3; // Thất bại 3 lần thì khóa
+    options.Lockout.AllowedForNewUsers = true;
+
+    // Cấu hình về User.
+    options.User.AllowedUserNameCharacters = // các ký tự đặt tên user
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;  // Email là duy nhất
+    // Cấu hình đăng nhập.
+    options.SignIn.RequireConfirmedEmail = true;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
+    options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
+    options.SignIn.RequireConfirmedAccount = false; // xác thực email trước khi đăng nhập
+});
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = "/login/";
+    options.LogoutPath = "/logout/";
+    options.AccessDeniedPath = "/khongduoctruycap.html";
+});
+ //builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
+builder.Services.AddAuthentication().
+ AddGoogle(options => {
+   var  ggcofig =  builder.Configuration.GetSection("Authentication:Google");
+     options.ClientId = ggcofig["ClientId"];
+     options.ClientSecret = ggcofig["ClientSecret"];
+     // địa chỉ mặc định của CallbackPath là signin-google
+     options.CallbackPath = "/dang-nhap-tu-google";
+ });
 builder.Services.AddSingleton<PlanetServices>();
 builder.Services.AddSingleton(typeof(ProductServices),typeof(ProductServices));
 var app = builder.Build();
