@@ -103,3 +103,4 @@ app.Run();
 // dotnet aspnet-codegenerator controller -name Product -namespace App.mvc.net.Controllers -outDir Controllers
 //dotnet aspnet-codegenerator area Database
 //dotnet aspnet-codegenerator controller -name DbManage -outDir Areas/Database/Controllers
+//dotnet aspnet-codegenerator controller -name Contact -namespace App.Areas.Contact.Controllers -m App.mvc.net.Contacts.Contact -udl -dc App.mvc.net.Models.AppDbContext -outDir Areas/Contact/Controllers/

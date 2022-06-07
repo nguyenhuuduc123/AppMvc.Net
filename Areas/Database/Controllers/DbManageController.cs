@@ -21,7 +21,7 @@ namespace App.mvc.net.Areas_Database_Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Delete(){
+        public IActionResult DeleteDb(){
             return View();
         }
         [TempData]

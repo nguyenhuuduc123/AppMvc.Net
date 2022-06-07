@@ -1,0 +1,19 @@
+.app-navbar{
+    background-color: rgba(0,0,0,0.8);
+    .text-dark {
+      color : rgb(150, 5, 5) !important;
+      &:hover {
+        color : white !important
+      }
+    }
+    .navbar-brand{
+      color :rgb(36, 5, 150) !important;
+      &:hover {
+        color : white !important
+      }
+    }
+    .dropdown-toggle {
+      border-color: green !important;
+    }
+    
+  }
