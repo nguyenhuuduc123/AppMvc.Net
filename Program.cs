@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using razorweb.models;
 using Microsoft.AspNetCore.Identity;
 using App.Services;
+using App.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,12 @@ builder.Services.AddAuthentication().
 builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 builder.Services.AddSingleton<PlanetServices>();
 builder.Services.AddSingleton(typeof(ProductServices),typeof(ProductServices));
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("ViewManageMenu",builder =>{
+        builder.RequireAuthenticatedUser();
+        builder.RequireClaim(RoleName.Administrator);
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,3 +1,10 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService
+
+@{
+  var result = await authorizationService.AuthorizeAsync(this.User,"ViewManageMenu");
+}
+@if(result.Succeeded){
 <div class="dropdown">
   <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
     Manage
@@ -10,3 +17,4 @@
    
   </ul>
 </div>
+}

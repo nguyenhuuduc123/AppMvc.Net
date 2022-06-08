@@ -25,6 +25,7 @@
     
 }
 <a class = "btn btn-danger" asp-action = "DeleteDb">xóa database : @dbName</a>
+<a class = "btn btn-danger"  asp-action = "SeedData"> seeddata</a>
 @if(dbcontext.Database.GetPendingMigrations().Any()){
     <form method="post">
     <a  class = "btn -btn-priamry" asp-action = "Migrate">tạo db (cập nhập migrations)</a>
