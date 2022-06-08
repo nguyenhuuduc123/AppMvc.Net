@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Data;
 using App.mvc.net.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using razorweb.models;
 
 namespace App.mvc.net.Areas_Database_Controllers
 {
@@ -13,9 +16,17 @@ namespace App.mvc.net.Areas_Database_Controllers
     public class DbManageController : Controller
     {
         private readonly AppDbContext _dbContext;
-        public DbManageController(AppDbContext dbContext){
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public DbManageController(AppDbContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
             _dbContext = dbContext;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            
         }
+
         public IActionResult Index()
         {
             return View();
@@ -25,7 +36,12 @@ namespace App.mvc.net.Areas_Database_Controllers
             return View();
         }
         [TempData]
-        public string statusmessage {get;set;}
+        public DbManageController(string statusmessage) 
+        {
+            this.statusmessage = statusmessage;
+               
+        }
+                public string statusmessage {get;set;}
        [HttpPost]
         public async Task<IActionResult> DeleteDbAsync(){
              var success = await _dbContext.Database.EnsureDeletedAsync();
@@ -38,5 +54,18 @@ namespace App.mvc.net.Areas_Database_Controllers
              statusmessage = "cập nhập database thành công";
              return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> SeedDataAsync(){
+
+                var roleNames = typeof(RoleName).GetFields().ToList();
+                foreach(var r in roleNames){
+                        var rolename = (string)r.GetRawConstantValue();
+                        var rfound = await _roleManager.FindByNameAsync(rolename);
+                        if(rfound == null){
+                           await _roleManager.CreateAsync(new IdentityRole(rolename));
+                        }
+
+                }
+        }
+
     }
 }

@@ -6,6 +6,7 @@ using App.mvc.net.Models;
 using Microsoft.EntityFrameworkCore;
 using razorweb.models;
 using Microsoft.AspNetCore.Identity;
+using App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,10 @@ builder.Services.Configure<RazorViewEngineOptions>(options => {
          // {2} => tên areas
          options.ViewLocationFormats.Add("/myview/{1}/{0}" + RazorViewEngine.ViewExtension);
 });
+builder.Services.AddOptions();
+var mailsetting = builder.Configuration.GetSection("MailSettings");
+builder.Services.Configure<MailSettings>(mailsetting);
+builder.Services.AddSingleton< IEmailSender,SendMailService>();
 builder.Services.AddDbContext<AppDbContext>(options =>{
         string connection = builder.Configuration.GetConnectionString("AppMvcConnectionString");
         options.UseSqlServer(connection);
@@ -65,6 +70,7 @@ builder.Services.AddAuthentication().
      // địa chỉ mặc định của CallbackPath là signin-google
      options.CallbackPath = "/dang-nhap-tu-google";
  });
+builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 builder.Services.AddSingleton<PlanetServices>();
 builder.Services.AddSingleton(typeof(ProductServices),typeof(ProductServices));
 var app = builder.Build();
