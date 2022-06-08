@@ -156,5 +156,6 @@ app.Run();
 // dotnet aspnet-codegenerator controller -name Planet -namespace App.mvc.net.Controllers -outDir Controllers
 // dotnet aspnet-codegenerator controller -name Product -namespace App.mvc.net.Controllers -outDir Controllers
 //dotnet aspnet-codegenerator area Database
-//dotnet aspnet-codegenerator controller -name DbManage -outDir Areas/Database/Controllers
-//dotnet aspnet-codegenerator controller -name Contact -namespace App.Areas.Contact.Controllers -m App.mvc.net.Contacts.Contact -udl -dc App.mvc.net.Models.AppDbContext -outDir Areas/Contact/Controllers/
+//dotnet aspnet-codegenerator controller -name CategoryController -outDir Areas/Blog/Controllers
+//dotnet aspnet-codegenerator controller -name Category  -m mvcblog.Models.Category -udl -dc App.mvc.net.Models.AppDbContext -outDir Areas/Blog/Controllers/
+// dotnet aspnet-codegenerator controller -name CategoryController -m mvcblog.Models.Category -dc AppDbContext -udl -outDir Areas/Blog/Controllers/

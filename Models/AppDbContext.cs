@@ -2,14 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using App.mvc.net.Contacts;
 using razorweb.models;
+using mvcblog.Models;
 
-namespace App.mvc.net.Models {
+
+  //App.mvc.net.Models.AppDbContext
         public class AppDbContext : IdentityDbContext<AppUser> {
 
-        public AppDbContext (DbContextOptions<AppDbContext> options) : base (options) { }
+        public AppDbContext (DbContextOptions<AppDbContext> options) : base (options) { 
+        }
 
         protected override void OnModelCreating (ModelBuilder builder) {
-
             base.OnModelCreating (builder);
             // Bỏ tiền tố AspNet của các bảng: mặc định
             foreach (var entityType in builder.Model.GetEntityTypes ()) {
@@ -18,8 +20,12 @@ namespace App.mvc.net.Models {
                      entityType.SetTableName (tableName.Substring (6));
                 }
            }
+          builder.Entity<Category>(entity => {
+            entity.HasIndex(c => c.Slug);
+
+          });
          }
         public DbSet<Contact> Contacts {set;get;}
+        public DbSet<Category> Categories {set;get;} 
     }
 
-}

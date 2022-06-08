@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace razorweb.models{
     // using razorweb.models
-    public class AppUser :IdentityUser{
+    public class AppUser : IdentityUser{
         [Column(TypeName = "nvarchar")]
         [StringLength(255)]
             public string EmailAddress{get;set;}
