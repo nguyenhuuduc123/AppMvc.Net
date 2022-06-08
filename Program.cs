@@ -77,7 +77,7 @@ builder.Services.AddSingleton(typeof(ProductServices),typeof(ProductServices));
 builder.Services.AddAuthorization(options => {
     options.AddPolicy("ViewManageMenu",builder =>{
         builder.RequireAuthenticatedUser();
-        builder.RequireClaim(RoleName.Administrator);
+        builder.RequireRole(RoleName.Administrator);
     });
 });
 var app = builder.Build();

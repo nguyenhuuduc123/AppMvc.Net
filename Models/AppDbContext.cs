@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using App.mvc.net.Contacts;
 using razorweb.models;
+using mvcblog.Models;
 
 namespace App.mvc.net.Models {
         public class AppDbContext : IdentityDbContext<AppUser> {
@@ -18,8 +19,12 @@ namespace App.mvc.net.Models {
                      entityType.SetTableName (tableName.Substring (6));
                 }
            }
+           builder.Entity<Category>(entity => {
+             entity.HasIndex(c => c.Slug);
+           });
          }
         public DbSet<Contact> Contacts {set;get;}
+        public DbSet<Category> Categories {set;get;}
     }
 
 }
