@@ -14,3 +14,8 @@
 }
 @*   ..../name=nguyenhuuduc&abc=xyz*@
 <a asp-all-route-data="@routedata"></a>
+<textarea id = "summernoteEditor"></textarea>   
+@{
+   var summernote = new app.models.Summernote("summernoteEditor");
+}
+<partial name  ="_Summernote" model ="summernote"/>
