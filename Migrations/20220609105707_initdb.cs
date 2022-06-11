@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.mvc.net.Migrations
 {
-    public partial class data01 : Migration
+    public partial class initdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -110,6 +110,32 @@ namespace App.mvc.net.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "posts",
+                columns: table => new
+                {
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Slug = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Published = table.Column<bool>(type: "bit", nullable: false),
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_posts", x => x.PostId);
+                    table.ForeignKey(
+                        name: "FK_posts_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 columns: table => new
                 {
@@ -194,6 +220,30 @@ namespace App.mvc.net.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PostCategory",
+                columns: table => new
+                {
+                    PostID = table.Column<int>(type: "int", nullable: false),
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostCategory", x => new { x.PostID, x.CategoryID });
+                    table.ForeignKey(
+                        name: "FK_PostCategory_Category_CategoryID",
+                        column: x => x.CategoryID,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PostCategory_posts_PostID",
+                        column: x => x.PostID,
+                        principalTable: "posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Category_ParentCategoryId",
                 table: "Category",
@@ -203,6 +253,23 @@ namespace App.mvc.net.Migrations
                 name: "IX_Category_Slug",
                 table: "Category",
                 column: "Slug");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostCategory_CategoryID",
+                table: "PostCategory",
+                column: "CategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_posts_AuthorId",
+                table: "posts",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_posts_Slug",
+                table: "posts",
+                column: "Slug",
+                unique: true,
+                filter: "[Slug] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -247,10 +314,10 @@ namespace App.mvc.net.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "Contacts");
+                name: "PostCategory");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -266,6 +333,12 @@ namespace App.mvc.net.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "posts");
 
             migrationBuilder.DropTable(
                 name: "Roles");

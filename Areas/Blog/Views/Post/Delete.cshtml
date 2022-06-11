@@ -1,0 +1,16 @@
+@model Post
+
+@{
+    ViewData["Title"] = "xóa bài viết";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>có chắc chắn xóa bài viết không</h3>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="PostId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">danh sách bài viết</a>
+    </form>
+</div>

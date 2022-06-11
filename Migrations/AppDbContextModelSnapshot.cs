@@ -52,7 +52,7 @@ namespace App.mvc.net.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -218,7 +218,69 @@ namespace App.mvc.net.Migrations
 
                     b.HasIndex("Slug");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
+                });
+
+            modelBuilder.Entity("Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"), 1L, 1);
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Slug")
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("nvarchar(160)");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasFilter("[Slug] IS NOT NULL");
+
+                    b.ToTable("posts", (string)null);
+                });
+
+            modelBuilder.Entity("PostCategory", b =>
+                {
+                    b.Property<int>("PostID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostID", "CategoryID");
+
+                    b.HasIndex("CategoryID");
+
+                    b.ToTable("PostCategory", (string)null);
                 });
 
             modelBuilder.Entity("razorweb.models.AppUser", b =>
@@ -353,9 +415,44 @@ namespace App.mvc.net.Migrations
                     b.Navigation("ParentCategory");
                 });
 
+            modelBuilder.Entity("Post", b =>
+                {
+                    b.HasOne("razorweb.models.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("PostCategory", b =>
+                {
+                    b.HasOne("mvcblog.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Post", "Post")
+                        .WithMany("PostCategories")
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("mvcblog.Models.Category", b =>
                 {
                     b.Navigation("CategoryChildren");
+                });
+
+            modelBuilder.Entity("Post", b =>
+                {
+                    b.Navigation("PostCategories");
                 });
 #pragma warning restore 612, 618
         }
