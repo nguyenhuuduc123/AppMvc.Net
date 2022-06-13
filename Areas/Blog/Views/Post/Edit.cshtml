@@ -1,19 +1,21 @@
-@model Post
+@model app.areas.models.CreatePostModel
 
 @{
-    ViewData["Title"] = "cập nhập bài viết ";
+    ViewData["Title"] = "chỉnh sửa bài viết";
     var list = ViewData["Category"] as MultiSelectList;
 }
 
 <h1>@ViewData["Title"]</h1>
-
-<h4>Post</h4>
-<hr />
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for= "PostId">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for ="PostId">
+             <div class="form-group">
+                <label asp-for="CategoryIds" class="control-label"></label>
+                <select asp-for="CategoryIds" multiple = "multiple" asp-items="list"  class="w-100" ></select>
+                <span asp-validation-for="CategoryIds" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -31,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <textarea asp-for="Content" class="form-control" ></textarea>
+                <textarea id ="Content"asp-for="Content" class="form-control" ></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -65,3 +67,8 @@
 
     <partial name="_ValidationScriptsPartial" />
 }
+@{
+    var summernote = new app.models.Summernote("Content");
+
+}
+<partial name = "_Summernote" model = "summernote"></partial>

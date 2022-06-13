@@ -1,5 +1,5 @@
 .app-navbar{
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(66, 28, 168, 0.8);
     .text-dark {
       color : rgb(150, 5, 5) !important;
       &:hover {
@@ -13,7 +13,35 @@
       }
     }
     .dropdown-toggle {
-      border-color: green !important;
+      border-color: rgb(14, 85, 14) !important;
     }
     
+    
   }
+.manage-drop {
+  background-color: red;
+}
+.categorysidebar{
+  ul,li {
+    list-style: none;
+    padding-left: 10px;
+  }
+  a{
+    text-decoration: none;
+    &:hover{
+      color: rgb(131, 11, 11);
+    }
+    &.active{
+      color : red;
+    }
+  }
+  >ul>li>a{
+    font-weight: bold;
+  }
+  h4{
+    text-transform: uppercase;
+    font-size: 1.3em;
+    border-bottom: 1px solid blue;
+    padding-bottom: 10px;
+  }
+}

@@ -107,7 +107,7 @@ namespace app.areas.Blogxys
            ViewData["Category"] =  new MultiSelectList(Category,"Id","Title");
 
            // ViewData["AuthorId"] = new SelectList(_context.Set<AppUser>(), "Id", "Id");
-            return View();
+            return View();  
         }
 
         // POST: Post/Create
@@ -117,11 +117,13 @@ namespace app.areas.Blogxys
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Description,Slug,Content,Published,CategoryIds")] CreatePostModel  post)
         {
+             var Category = await _context.Categories.ToListAsync();
+           ViewData["Category"] =  new MultiSelectList(Category,"Id","Title");
              if(post.Slug == null){
             post.Slug = App.Utilities.AppUtilities.GenerateSlug(post.Title);
            }
            if ( await _context.posts.AnyAsync(p => p.Slug == post.Slug)){
-            ModelState.AddModelError(string.Empty,"nhập chuỗi url khác");
+            ModelState.AddModelError("Slug","nhập chuỗi url khác");
             return View(post);
            }
           
@@ -173,7 +175,7 @@ namespace app.areas.Blogxys
             };
          var Category = await _context.Categories.ToListAsync();
            ViewData["Category"] =  new MultiSelectList(Category,"Id","Title");
-            return View(post);
+            return View(postEdit);
         }
 
         // POST: Post/Edit/5
@@ -187,17 +189,16 @@ namespace app.areas.Blogxys
             {
                 return NotFound();
             }
-                var Category = await _context.Categories.ToListAsync();
+            var Category = await _context.Categories.ToListAsync();
            ViewData["Category"] =  new MultiSelectList(Category,"Id","Title");
             
              if(post.Slug == null){
             post.Slug = App.Utilities.AppUtilities.GenerateSlug(post.Title);
            }
            if ( await _context.posts.AnyAsync(p => p.Slug == post.Slug && p.PostId != id)){
-            ModelState.AddModelError(string.Empty,"nhập chuỗi url khác");
+            ModelState.AddModelError("Slug","nhập chuỗi url khác");
             return View(post);
            }
-            
             
             if (ModelState.IsValid)
             {
@@ -232,12 +233,6 @@ namespace app.areas.Blogxys
                                 CategoryID = cateid
                         });
                     }
-
-
-
-
-
-
                    _context.Update(postUpdate);
                    await _context.SaveChangesAsync();
                 }
@@ -254,9 +249,8 @@ namespace app.areas.Blogxys
                 }
                 statusmessage = "vừa cập nhập bài viết";
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["AuthorId"] = new SelectList(_context.Set<AppUser>(), "Id", "Id", post.AuthorId);
-            return View(post);
+            } ViewData["AuthorId"] = new SelectList(_context.Set<AppUser>(), "Id", "Id", post.AuthorId);
+            return  View(post);
         }
 
         // GET: Post/Delete/5

@@ -30,7 +30,7 @@ body {
 }
 
 .app-navbar {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(66, 28, 168, 0.8);
 }
 .app-navbar .text-dark {
   color: rgb(150, 5, 5) !important;
@@ -45,11 +45,38 @@ body {
   color: white !important;
 }
 .app-navbar .dropdown-toggle {
-  border-color: green !important;
+  border-color: rgb(14, 85, 14) !important;
+}
+
+.manage-drop {
+  background-color: red;
+}
+
+.categorysidebar ul, .categorysidebar li {
+  list-style: none;
+  padding-left: 10px;
+}
+.categorysidebar a {
+  text-decoration: none;
+}
+.categorysidebar a:hover {
+  color: rgb(131, 11, 11);
+}
+.categorysidebar a.active {
+  color: red;
+}
+.categorysidebar > ul > li > a {
+  font-weight: bold;
+}
+.categorysidebar h4 {
+  text-transform: uppercase;
+  font-size: 1.3em;
+  border-bottom: 1px solid blue;
+  padding-bottom: 10px;
 }
 
 .contact-firstcol {
-  background-color: blue;
+  background-color: rgb(89, 5, 105);
   color: white;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
@@ -69,4 +96,14 @@ body {
 }
 .formcontact .btn-primary {
   background-color: rgb(255, 0, 64) !important;
+}
+
+.nav-item {
+  color: white m !important;
+}
+
+.app-footer {
+  background-color: rgb(8, 1, 1);
+  color: white;
+  text-align: center;
 }

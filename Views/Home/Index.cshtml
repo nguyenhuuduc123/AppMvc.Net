@@ -1,21 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    
 }
 <partial name = "_AlertMessage"/>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class ="w-100  p-0 m-0">
+    <img class = "w-100 p-0 m-0" src="https://www.testcenter.vn/blog/wp-content/uploads/2021/07/cats.jpg" alt="">
 </div>
-@{
-    var routedata = new Dictionary<string,string>(){
-        {"name", "nguyenhuuduc"},
-        {"abc","xyz"}
-        };
-}
-@*   ..../name=nguyenhuuduc&abc=xyz*@
-<a asp-all-route-data="@routedata"></a>
-<textarea id = "summernoteEditor"></textarea>   
-@{
-   var summernote = new app.models.Summernote("summernoteEditor");
-}
-<partial name  ="_Summernote" model ="summernote"/>

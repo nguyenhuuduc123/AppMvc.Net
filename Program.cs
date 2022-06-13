@@ -8,6 +8,7 @@ using razorweb.models;
 using Microsoft.AspNetCore.Identity;
 using App.Services;
 using App.Data;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,9 +90,17 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+// contents/1.jpg => Uploads/1.jpg
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions(){
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(),"Uploads")
+
+    ),
+    RequestPath = "/contents"
+} );
+
 app.UseStatusCodePages();
 
 app.UseRouting();

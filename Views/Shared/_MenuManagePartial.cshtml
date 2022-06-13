@@ -6,7 +6,7 @@
 }
 @if(result.Succeeded){
 <div class="dropdown">
-  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-primary dropdown-toggle manage-drop" data-bs-toggle="dropdown">
     Manage
   </button>
   <ul class="dropdown-menu dropdown-menu-right">
@@ -16,7 +16,7 @@
     <li><a class="dropdown-item" asp-action="Index" asp-area="Identity" asp-controller="User">quản lý thành viên</a></li>
      <li><a class="dropdown-item" asp-action="Index" asp-area="Blog" asp-controller="Category">quản lý chuyên mục blog</a></li>
       <li><a class="dropdown-item" asp-action="Index" asp-area="Blog" asp-controller="Post">quản lý bài viết blog</a></li>
-   
+       <li><a target="_blank" class="dropdown-item" asp-action="Index" asp-area="Files" asp-controller="FileManager">quản lý file upload</a></li>
   </ul>
 </div>
 }
