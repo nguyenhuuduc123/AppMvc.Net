@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using App.mvc.net.Contacts;
 using razorweb.models;
 using mvcblog.Models;
+using app.models.Product.photo;
 
 namespace App.mvc.net.Models {
         public class AppDbContext : IdentityDbContext<AppUser>{
@@ -33,11 +34,30 @@ namespace App.mvc.net.Models {
              entity.HasIndex(c =>c.Slug).IsUnique();
              });
            
+
+
+            builder.Entity<CategoryProduct>(entity => {
+             entity.HasIndex(c => c.Slug);
+            
+           });
+           builder.Entity<Product_categoryProduct>(entity => {
+             entity.HasKey(c => new {
+               c.ProductId,c.CategoryID
+             });
+           });
+            builder.Entity<ProductModel>(entity => {
+             entity.HasIndex(c =>c.Slug).IsUnique();
+             });
+           
          }
         public DbSet<Contact> Contacts {set;get;}
         public DbSet<Category> Categories {set;get;}
-        public DbSet<Post> posts {set;get;}
+        public DbSet<Post> posts {set;get;} 
         public DbSet<PostCategory> PostCategories {set;get;}
+          public DbSet<CategoryProduct> CategoryProducts {set;get;}
+        public DbSet<ProductModel> Products {set;get;}
+        public DbSet<Product_categoryProduct> ProductcategoryProducts {set;get;}
+        public DbSet<ProductPhoto> ProductPhotos {get;set;}
 
     }
 

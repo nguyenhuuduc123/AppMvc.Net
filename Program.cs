@@ -74,7 +74,7 @@ builder.Services.AddAuthentication().
  });
 builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 builder.Services.AddSingleton<PlanetServices>();
-builder.Services.AddSingleton(typeof(ProductServices),typeof(ProductServices));
+
 builder.Services.AddAuthorization(options => {
     options.AddPolicy("ViewManageMenu",builder =>{
         builder.RequireAuthenticatedUser();

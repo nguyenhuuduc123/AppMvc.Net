@@ -1,0 +1,37 @@
+@model mvcblog.Models.CategoryProduct
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Category</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+           nội dung
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.Raw(Model.Content)   
+        </dd>
+       
+       
+        <dt class = "col-sm-2">
+           Url
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Slug)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">chỉnh sửa</a> |
+    <a asp-action="Index">danh sách chuyên mục</a>
+</div>
+@{
+    var summernote = new app.models.Summernote("Content");
+
+}
+<partial name = "_Summernote" model = "summernote"></partial>

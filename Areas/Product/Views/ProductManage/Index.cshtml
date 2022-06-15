@@ -1,0 +1,75 @@
+@using App.Models
+@model IEnumerable<ProductModel>
+
+@{
+    ViewData["Title"] = "danh sách sản phẩm";
+    
+}
+<partial name = "_AlertMessage"></partial>
+<h1>@ViewData["Title"]</h1>
+<p> tổng số sản phẩm @ViewBag.totalPost </p>
+<p>
+    <a asp-action="Create">tạo sản phẩm mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                    số thứ tự
+        </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Published)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.DateUpdated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @(++ViewBag.postIndex)
+            </td>
+            <td>
+                 <a asp-action="Edit" asp-route-id="@item.ProductId" >
+                    @Html.DisplayFor(modelItem => item.Title)   
+                 </a> <br>
+                  @string.Join(",",item.ProductcategoryProducts.Select(ps => ps.Category.Title))
+               
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Published)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateUpdated)
+            </td>
+            <td>
+               |
+                <a asp-action="Details" asp-route-id="@item.ProductId">chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductId">xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<partial name="_PagingXTL" model="@ViewBag.pagingmodel"/>

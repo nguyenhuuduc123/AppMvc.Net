@@ -10,9 +10,7 @@
      <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+
 </head>
 <body>
     <header>
@@ -26,7 +24,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Blog" asp-controller="ViewPost" asp-action="Index">view post blog </a>
+                            <a class="nav-link text-dark" asp-area="Blog" asp-controller="ViewPost" asp-action="Index">Danh Sách Blog </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -34,15 +32,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Planet" asp-action="Index">các hành tinh</a>
-                        </li>
+                         
                          <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Contact" asp-controller="Contact" asp-action="SendContact">liên hệ</a>
                         </li>
-                    </ul>                                               
+                    </ul> 
+                       <partial name ="_MenuManagePartial"></partial>                                               
                           <partial name ="_LoginPartial"></partial> 
-                           <partial name ="_MenuManagePartial"></partial>                  
+                                           
                 </div>
             </div>
         </nav>

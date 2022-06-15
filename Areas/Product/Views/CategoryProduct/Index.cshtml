@@ -1,0 +1,60 @@
+@using mvcblog.Models
+@model IEnumerable<mvcblog.Models.CategoryProduct>
+
+@{
+    ViewData["Title"] = "chuyên muc sản phẩm";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class = "btn btn-sm btn-primary">tạo chuyên mục</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Slug)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+      await  RenderCategory(item,0);
+}
+    </tbody>
+</table>
+@{
+    async Task  RenderCategory(CategoryProduct item, int level){
+        string prefix = string.Concat(Enumerable.Repeat("**",level));
+      
+        <tr>
+            <td>
+              (@prefix) 
+              <a asp-action="Edit" asp-route-id="@item.Id"> 
+                  @Html.DisplayFor(modelItem => item.Title)</a>
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+           
+            <td>
+                
+                <a asp-action="Details" asp-route-id="@item.Id">chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">xóa</a>
+            </td>
+        </tr>
+        if(item.CategoryChildren?.Count > 0){
+            foreach(var cc in item.CategoryChildren){
+                  await   RenderCategory(cc,level+1);
+            }
+        }
+    };
+}

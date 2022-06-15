@@ -1,0 +1,131 @@
+@model app.areas.Blogxys.ProductManageController.UploadoneFile
+@{
+    ProductModel product = ViewData["product"] as ProductModel;
+}
+<h1>upload photo @product.Title</h1>
+
+
+
+<form method="post" enctype="multipart/form-data">
+    <label asp-for="@Model.Fileuploads"></label>
+    <input asp-for="@Model.Fileuploads"/>
+    <span asp-validation-for="@Model.Fileuploads"></span>
+    <button class = "btn btn-success" asp-action="UploadPhoto" asp-route-id = "@product.ProductId">upload</button>
+</form>
+<hr>
+<input class = "collapse" type="file" id = "selectfileupload" onchange="Autouploadphoto()">
+<span class= "btn btn-primary" onclick="clickbuttonUploads()">Uploads</span>
+
+
+
+
+
+
+
+
+
+
+<div id = "box-photo-upload" class = "d-flex flex-wrap photo-upload" data-id="@product.ProductId">
+  @*
+    @foreach (var photo in product.Photos)
+    {
+        <div class = "photodetail w-25">
+            <img class = "w-100 p-1" src="/contents/Products/@photo.FileName" alt="">
+            <span class = "btn btn-danger" data-id = "@photo.Id">delete</span>
+        </div>
+    }
+    *@
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function Autouploadphoto(){
+              var formData = new FormData();
+              var id = $("#box-photo-upload").data("id");
+              formData.append("id",id)
+         var  sofile =    document.getElementById("selectfileupload").files.length;
+              if(sofile == 0){
+                return;
+              }
+              var fileData =document.getElementById("selectfileupload").files[0];
+              formData.append("Fileuploads",fileData)
+
+
+              var urlupload  = "@Url.Action("UploadPhotoApi")";
+              $.ajax({
+                data:formData,
+                cache: false,
+                url : urlupload,
+                type : "POST",
+                contentType : false,
+                processData : false,
+                success : function(data){
+                        LoadPhotos();
+              }
+            });
+        }
+        function clickbuttonUploads(){
+            $("#selectfileupload").click();
+        }
+        function SetClickDeletePhoto(){
+            $("#box-photo-upload .photodetail span").click(function (){
+                if(confirm("có chắn chắn xóa ảnh") != true){
+                    return;
+                }
+                var spanbutton = $(this);
+                var id = spanbutton.data("id");
+            
+                var formData = new FormData();
+              formData.append("id",id)
+              var UrlDeletePhoto = "@Url.Action("DeletePhoto")";
+              $.ajax({
+                data:formData,
+                cache: false,
+                url : UrlDeletePhoto,
+                type : "POST",
+                contentType : false,
+                processData : false,
+                success : function(data){
+                        LoadPhotos();
+              }
+            });
+        });
+        }
+
+        function LoadPhotos(){
+                var box = $("#box-photo-upload");
+              var productId =  box.data("id");
+              box.empty();
+              var formData = new FormData();
+              formData.append("id",productId)
+              var urlListPhoto = "@Url.Action("ListPhotos")";
+              $.ajax({
+                data:formData,
+                cache: false,
+                url : urlListPhoto,
+                type : "POST",
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    data.photos.forEach(function(item){
+                var e   =    $(
+                         '<div class = "photodetail w-25">'
+           + '<img class = "w-100 p-1" src="'+ item.path + '" alt="">'
+          + ' <span class = "btn btn-danger" data-id = "'+ item.id + '">delete</span>'
+       + '</div>');
+                box.append(e)
+                    });
+                    SetClickDeletePhoto();
+                }
+              });
+             
+
+        }
+        
+       $(document).ready(function(){
+        LoadPhotos();
+       });
+    </script>
+}
