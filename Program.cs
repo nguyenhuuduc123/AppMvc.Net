@@ -72,6 +72,11 @@ builder.Services.AddAuthentication().
      // địa chỉ mặc định của CallbackPath là signin-google
      options.CallbackPath = "/dang-nhap-tu-google";
  });
+builder.Services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+builder.Services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+    cfg.Cookie.Name = "appMvc";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+    cfg.IdleTimeout = new TimeSpan(0,30, 0);    // Thời gian tồn tại của Session
+});
 builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 builder.Services.AddSingleton<PlanetServices>();
 
@@ -81,6 +86,7 @@ builder.Services.AddAuthorization(options => {
         builder.RequireRole(RoleName.Administrator);
     });
 });
+builder.Services.AddTransient<CartService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -101,6 +107,7 @@ app.UseStaticFiles(new StaticFileOptions(){
     RequestPath = "/contents"
 } );
 
+app.UseSession();
 app.UseStatusCodePages();
 
 app.UseRouting();

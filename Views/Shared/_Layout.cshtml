@@ -29,6 +29,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Product" asp-controller="ViewProduct" asp-action="Index">sản phẩm</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
@@ -37,6 +40,7 @@
                             <a class="nav-link text-dark" asp-area="Contact" asp-controller="Contact" asp-action="SendContact">liên hệ</a>
                         </li>
                     </ul> 
+                    @await Html.PartialAsync("_CartPartial")
                        <partial name ="_MenuManagePartial"></partial>                                               
                           <partial name ="_LoginPartial"></partial> 
                                            
