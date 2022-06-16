@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/App.mvc.net.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
      <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -37,10 +39,12 @@
                         </li>
                          
                          <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Contact" asp-controller="Contact" asp-action="SendContact">liên hệ</a>
+                            <a class="nav-link text-dark" asp-area="Contact" asp-controller="Contact" asp-action="SendContact"><i class="fa-solid fa-phone"></i>liên hệ</a>
                         </li>
                     </ul> 
-                    @await Html.PartialAsync("_CartPartial")
+                   <div class = "mx-3">
+                     @await Html.PartialAsync("_CartPartial")
+                   </div>
                        <partial name ="_MenuManagePartial"></partial>                                               
                           <partial name ="_LoginPartial"></partial> 
                                            

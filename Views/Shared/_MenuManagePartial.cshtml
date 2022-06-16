@@ -7,9 +7,11 @@
 @if(result.Succeeded){
 <div class="dropdown">
   <button type="button" class="btn btn-primary dropdown-toggle manage-drop" data-bs-toggle="dropdown">
-    Manage
+   <i class="fa-solid fa-gear"></i> Manage
   </button>
+  <div><a class="dropdown-item " asp-action="Index" asp-area="AdminCP" asp-controller="AdminCP">quản trị </a></div>
   <ul class="dropdown-menu dropdown-menu-right">
+    
     <li><a class="dropdown-item" asp-action="Index" asp-area="Product" asp-controller="ProductManage">quản lý  sản phẩm </a></li>
     <li><a class="dropdown-item" asp-action="Index" asp-area="Product" asp-controller="CategoryProduct">quản lý chuyên mục sản phẩm </a></li>
     <li><a class="dropdown-item" asp-action="Index" asp-area="Database" asp-controller="DbManage">database</a></li>
